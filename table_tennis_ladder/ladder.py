@@ -7,17 +7,20 @@ from persistence import Persistence
 class Ladder:
 
     # list of Player objects where each player has a name attribute.
-    ladder = []
-    ladder_folder = "group_ladders"
+    
 
     def __init__(self, name, new=True):
+        self.ladder = []
+        self.ladder_folder = "group_ladders"
         self.players = {}
+        
         self.ladder_filename = name
 
         self.file = Persistence(
             self.ladder_folder, self.ladder_filename, self.ladder)
         players = self.file.read()
 
+        print(self.ladder)
         # file not found or empty load some default data for testing
         if not players and not new:
             self.players['Ash'] = Player('Ash')

@@ -1,10 +1,11 @@
 import click
+import os
 
 from group import Group
 from ladder import Ladder
 from player import Player
 import validation
-from flask import Flask
+from flask import Flask, request
 from htmlify import Htmlify
 
 app = Flask(__name__)
@@ -40,19 +41,44 @@ champ = r"""
 
 @app.route("/")
 def get_html():
-    home_file = open("html/out/home.html", "r")
+    home_file = open("html/out/home_start.html", "r")
     home_html = home_file.read()
+    for leaderboard_name in get_leaderboard_names():
+        home_html += "<a href=/" + leaderboard_name + ">" + leaderboard_name + "</a><br>"
     return home_html
 
-@app.route("/ateamchamp")
-def get_ATeam_html():
-    cur_group = get_group("ATeamChamp")
-    print cur_group
-    group_ladder = cur_group.get_ladder()
-    ladder = group_ladder.get_rankings()
-    html = Htmlify("ATeamChamp", ladder).gen_html()
 
+@app.route("/<leaderboard>")
+def get_leaderboard_html(leaderboard):
+    cur_group = get_group(leaderboard)
+    ladder = cur_group.get_ladder().get_rankings()
+    
+    html = Htmlify(leaderboard, ladder).gen_html()
     return html
+
+
+@app.route("/<leaderboard>", methods=["POST"])
+def post_player(leaderboard):
+    if request.method == "POST":
+        player_name = request.form["playername"]
+
+        cur_group = get_group(leaderboard)
+        group_ladder = cur_group.get_ladder()
+        group_ladder.add_player(player_name)
+
+        return get_leaderboard_html(leaderboard)
+
+
+
+
+def get_leaderboard_names():
+    leaderboard_names = []
+    for filename in os.listdir("group_ladders"):
+        if not "." in filename and filename != "leaderboard_names":
+            leaderboard_names.append(filename)
+
+    return leaderboard_names
+
 
 @click.command()
 @click.argument('group')
