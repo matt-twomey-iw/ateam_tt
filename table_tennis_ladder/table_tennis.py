@@ -42,6 +42,7 @@ champ = r"""
 def get_html():
     cur_group = get_group("ATeamChamp")
     ladder = cur_group.get_ladder().get_rankings()
+    print ladder
     html = Htmlify("ATeamChamp", ladder).gen_html()
 
     return html
@@ -61,6 +62,7 @@ def main(group,
 
         Provide a GROUP name and use the options listed below to interact with the system."""
 
+    get_html()
     print welcome
 
     if new and not update:
