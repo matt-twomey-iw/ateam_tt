@@ -19,7 +19,7 @@ class Htmlify:
     def gen_html(self):
         html = self.template.render(
             locals(), loader=self.loader).encode('utf-8')
-        self.write_html(html)
+        #self.write_html(html)
         return html
 
     def write_html(self, html):

@@ -40,12 +40,18 @@ champ = r"""
 
 @app.route("/")
 def get_html():
+    home_file = open("html/out/home.html", "r")
+    home_html = home_file.read()
+    return home_html
+
+@app.route("/ateamchamp")
+def get_ATeam_html():
     cur_group = get_group("ATeamChamp")
     ladder = cur_group.get_ladder().get_rankings()
+    
     html = Htmlify("ATeamChamp", ladder).gen_html()
 
     return html
-
 
 @click.command()
 @click.argument('group')
