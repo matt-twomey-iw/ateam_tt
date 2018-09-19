@@ -4,6 +4,10 @@ from group import Group
 from ladder import Ladder
 from player import Player
 import validation
+from flask import Flask
+from htmlify import Htmlify
+
+app = Flask(__name__)
 
 welcome = r"""
           ,;;;!!!!!;;.
@@ -32,6 +36,15 @@ champ = r"""
     _.' '._
    `-------`
 """
+
+
+@app.route("/")
+def get_html():
+    cur_group = get_group("ATeamChamp")
+    ladder = cur_group.get_ladder().get_rankings()
+    html = Htmlify("ATeamChamp", ladder).gen_html()
+
+    return html
 
 
 @click.command()
