@@ -5,10 +5,11 @@ from group import Group
 from ladder import Ladder
 from player import Player
 import validation
-from flask import Flask, request
+from flask import Flask, request, render_template, redirect, url_for
 from htmlify import Htmlify
 
 app = Flask(__name__)
+app.config['UPLOAD_FOLDER'] = "static"
 
 welcome = r"""
           ,;;;!!!!!;;.
@@ -39,6 +40,11 @@ champ = r"""
 """
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    full_filename = os.path.join(app.config['UPLOAD_FOLDER'], 'Ben0.png')
+    return render_template('404.html')
+
 @app.route("/")
 def get_html():
     home_file = open("html/out/home_start.html", "r")
@@ -46,6 +52,16 @@ def get_html():
     for leaderboard_name in get_leaderboard_names():
         home_html += "<a href=/" + leaderboard_name + ">" + leaderboard_name + "</a><br>"
     return home_html
+
+@app.route("/", methods=["POST"])
+def post_leaderboard():
+    if request.method == "POST":
+        leaderboard_name = request.form["leaderboard_name"]
+
+        create_group(leaderboard_name)
+
+        return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
+
 
 @app.route("/<leaderboard>")
 def get_leaderboard_html(leaderboard):
@@ -66,7 +82,6 @@ def post_player(leaderboard):
         group_ladder.add_player(player_name)
 
         return get_leaderboard_html(leaderboard)
-
 
 
 
