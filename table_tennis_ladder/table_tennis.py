@@ -57,9 +57,17 @@ def get_leaderboard_html(leaderboard):
     return html
 
 @app.route("/<leaderboard>", methods=["POST"])
-def post_player(request):
+def post_player(leaderboard):
     if request.method == "POST":
         player_name = request.form["playername"]
+
+        cur_group = get_group(leaderboard)
+        group_ladder = cur_group.get_ladder()
+        group_ladder.add_player(player_name)
+
+        return get_leaderboard_html(leaderboard)
+
+
 
 
 def get_leaderboard_names():
