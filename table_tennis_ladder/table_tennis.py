@@ -47,12 +47,9 @@ def get_html():
 @app.route("/ateamchamp")
 def get_ATeam_html():
     cur_group = get_group("ATeamChamp")
-    ladder = cur_group.get_ladder().get_rankings()
-<<<<<<< HEAD
-    print ladder
-=======
-    
->>>>>>> a702452b604efc006897cfa850be25e9460e3716
+    print cur_group
+    group_ladder = cur_group.get_ladder()
+    ladder = group_ladder.get_rankings()
     html = Htmlify("ATeamChamp", ladder).gen_html()
 
     return html
@@ -71,7 +68,6 @@ def main(group,
 
         Provide a GROUP name and use the options listed below to interact with the system."""
 
-    get_html()
     print welcome
 
     if new and not update:
