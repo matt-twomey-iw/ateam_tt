@@ -1,3 +1,8 @@
+html {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
 body {
     max-width: 960px;
 	min-width: 510px;
