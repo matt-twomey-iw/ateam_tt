@@ -75,6 +75,7 @@ def get_leaderboard_html(leaderboard):
 
 @app.route("/<leaderboard>", methods=["POST"])
 def post_player(leaderboard):
+
     if request.method == "POST":
         player_name = request.form["playername"]
 
