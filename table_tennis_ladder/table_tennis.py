@@ -1,6 +1,8 @@
 import click
 import os
 
+# import libraries in lib directory
+
 from group import Group
 from ladder import Ladder
 from player import Player
