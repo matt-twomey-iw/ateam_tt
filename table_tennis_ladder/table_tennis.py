@@ -1,11 +1,13 @@
 import click
 import os
 
+# import libraries in lib directory
+
 from group import Group
 from ladder import Ladder
 from player import Player
 import validation
-from flask import Flask, request, render_template, redirect, url_for
+from flask import Flask, request, render_template, redirect, url_for, abort, flash
 from htmlify import Htmlify
 
 app = Flask(__name__)
@@ -58,14 +60,22 @@ def get_html():
 def post_leaderboard():
     if request.method == "POST":
         leaderboard_name = request.form["leaderboard_name"]
+        if not leaderboard_name.isalpha():
+            flash("Invalid input - leaderboard names must contain only letters/numbers")
+            get_html()
+        else:
+            create_group(leaderboard_name)
 
-        create_group(leaderboard_name)
-
-        return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
+            return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
 
 
 @app.route("/<leaderboard>")
 def get_leaderboard_html(leaderboard):
+    
+
+    if leaderboard not in get_leaderboard_names():
+        abort(404)
+    
     cur_group = get_group(leaderboard)
     ladder = cur_group.get_ladder().get_rankings()
     
@@ -74,18 +84,42 @@ def get_leaderboard_html(leaderboard):
 
 
 @app.route("/<leaderboard>", methods=["POST"])
-def post_player(leaderboard):
-
+def record_match(leaderboard):
     if request.method == "POST":
+        if "record_match_submit" in request.form:
+            winner_name = request.form["winner_name"]
+            loser_name = request.form["loser_name"]
+
+            cur_group = get_group(leaderboard)
+            ladder = cur_group.get_ladder()
+            input_game(ladder, winner_name, loser_name)
+        elif "add_player_submit" in request.form:
+            player_name = request.form["playername"]
+
+            cur_group = get_group(leaderboard)
+            group_ladder = cur_group.get_ladder()
+            group_ladder.add_player(player_name)
+        elif "remove_player_submit" in request.form:
+            player_name = request.form["playername"]
+
+            cur_group = get_group(leaderboard)
+            group_ladder = cur_group.get_ladder()
+            group_ladder.remove_player(player_name)
+
+        return get_leaderboard_html(leaderboard)
+
+        return get_leaderboard_html(leaderboard)
+
+@app.route("/<leaderboard>", methods=["DELETE"])
+def remove_player(leaderboard):
+    if request.method == "DELETE":
         player_name = request.form["playername"]
 
         cur_group = get_group(leaderboard)
         group_ladder = cur_group.get_ladder()
-        group_ladder.add_player(player_name)
+        group_ladder.remove_player(player_name)
 
         return get_leaderboard_html(leaderboard)
-
-
 
 def get_leaderboard_names():
     leaderboard_names = []

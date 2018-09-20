@@ -1,0 +1,22 @@
+html {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+
+body {
+    max-width: 960px;
+	min-width: 510px;
+	margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+}
+
+h1 {
+    
+    color: #004b83;
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+h2 {
+    
+}
