@@ -7,7 +7,7 @@ from group import Group
 from ladder import Ladder
 from player import Player
 import validation
-from flask import Flask, request, render_template, redirect, url_for, abort, flash
+from flask import Flask, request, render_template, redirect, url_for, abort
 from htmlify import Htmlify
 
 app = Flask(__name__)
@@ -50,10 +50,8 @@ def page_not_found(e):
 
 @app.route("/")
 def get_html():
-    home_file = open("html/out/home_start.html", "r")
-    home_html = home_file.read()
-    for leaderboard_name in get_leaderboard_names():
-        home_html += "<a href=/" + leaderboard_name + ">" + leaderboard_name + "</a><br>"
+    leaderboard_names = get_leaderboard_names()
+    home_html = render_template("home.html", leaderboard_names=leaderboard_names)
     return home_html
 
 
@@ -67,7 +65,7 @@ def post_leaderboard():
         else:
             create_group(leaderboard_name)
 
-            return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
+        return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
 
 
 @app.route("/<leaderboard>")
@@ -109,7 +107,6 @@ def record_match(leaderboard):
 
         return get_leaderboard_html(leaderboard)
 
-        return get_leaderboard_html(leaderboard)
 
 @app.route("/<leaderboard>", methods=["DELETE"])
 def remove_player(leaderboard):
