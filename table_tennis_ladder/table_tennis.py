@@ -61,11 +61,10 @@ def post_leaderboard():
         leaderboard_name = request.form["leaderboard_name"]
         if not leaderboard_name.isalpha():
             flash("Invalid input - leaderboard name contains non-alphanumeric characters")
-            get_html()
+            return get_html()
         else:
             create_group(leaderboard_name)
-
-        return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
+            return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
 
 
 @app.route("/<leaderboard>")
