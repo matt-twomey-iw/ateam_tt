@@ -7,7 +7,7 @@ from group import Group
 from ladder import Ladder
 from player import Player
 import validation
-from flask import Flask, request, render_template, redirect, url_for, abort
+from flask import Flask, request, render_template, redirect, url_for, abort, flash
 from htmlify import Htmlify
 
 app = Flask(__name__)
@@ -185,7 +185,6 @@ def input_game(ladder, winner_name, loser_name):
     ladder.update(winner, loser)
 
 
-# TODO: Check that group doesn't already exist
 def create_group(name):
     new_group = Group(name)
     new_group.ladder.save()
