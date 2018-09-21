@@ -12,6 +12,7 @@ from htmlify import Htmlify
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static"
+app.secret_key = b'im_batman'
 
 welcome = r"""
           ,;;;!!!!!;;.
@@ -61,7 +62,7 @@ def post_leaderboard():
     if request.method == "POST":
         leaderboard_name = request.form["leaderboard_name"]
         if not leaderboard_name.isalpha():
-            flash("Invalid input - leaderboard names must contain only letters/numbers")
+            flash("Invalid input - leaderboard name contains non-alphanumeric characters")
             get_html()
         else:
             create_group(leaderboard_name)
