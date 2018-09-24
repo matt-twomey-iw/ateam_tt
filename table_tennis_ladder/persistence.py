@@ -6,7 +6,7 @@ class Persistence:
         self.ladder = ladder
         self.group_name = group_name
         self.ladder_folder = ladder_folder
-        self.ladder_filepath = (ladder_folder + '/' + self.group_name).lower()
+        self.ladder_filepath = (ladder_folder + '/' + self.group_name)
 
     def read(self):
         try:

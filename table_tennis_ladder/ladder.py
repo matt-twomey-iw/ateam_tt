@@ -20,7 +20,7 @@ class Ladder:
             self.ladder_folder, self.ladder_filename, self.ladder)
         players = self.file.read()
 
-        print(self.ladder)
+
         # file not found or empty load some default data for testing
         if not players and not new:
             self.players['Ash'] = Player('Ash')
