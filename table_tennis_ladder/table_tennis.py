@@ -82,8 +82,9 @@ def get_leaderboard_html(leaderboard):
     cur_group = get_group(leaderboard)
     ladder = cur_group.get_ladder().get_rankings()
     
-    html = Htmlify(leaderboard, ladder).gen_html()
-    return html
+    leaderboard_html = render_template("ladder.html", leaderboard_name=leaderboard, players=ladder)
+    #html = Htmlify(leaderboard, ladder).gen_html()
+    return leaderboard_html
 
 
 @app.route("/<leaderboard>", methods=["POST"])
