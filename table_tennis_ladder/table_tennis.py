@@ -62,6 +62,9 @@ def post_leaderboard():
         if not leaderboard_name.isalnum():
             flash("Invalid input - leaderboard name contains non-alphanumeric characters", "error")
             return get_html()
+        elif len(leaderboard_name) > 20:
+            flash("Invalid input - leaderboard name is too long", "error")
+            return get_html()
         else:
             create_group(leaderboard_name)
             return redirect(url_for("get_leaderboard_html", leaderboard=leaderboard_name))
