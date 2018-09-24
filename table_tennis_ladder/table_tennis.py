@@ -59,7 +59,7 @@ def get_html():
 def post_leaderboard():
     if request.method == "POST":
         leaderboard_name = request.form["leaderboard_name"]
-        if not leaderboard_name.isalpha():
+        if not leaderboard_name.isalnum():
             flash("Invalid input - leaderboard name contains non-alphanumeric characters", "error")
             return get_html()
         else:
@@ -71,7 +71,9 @@ def post_leaderboard():
 def get_leaderboard_html(leaderboard):
     
     lower_leaderboard = leaderboard.lower()
-    if lower_leaderboard not in get_leaderboard_names():
+    leaderboard_names = get_leaderboard_names()
+    lower_leaderboard_names = [x.lower() for x in leaderboard_names]
+    if lower_leaderboard not in lower_leaderboard_names:
         abort(404)
     
     cur_group = get_group(leaderboard)
@@ -88,15 +90,17 @@ def record_match(leaderboard):
             winner_name = request.form["winner_name"]
             loser_name = request.form["loser_name"]
 
-            cur_group = get_group(leaderboard)
-            ladder = cur_group.get_ladder()
-            input_game(ladder, winner_name, loser_name)
+            if winner_name != "" and loser_name != "":
+                cur_group = get_group(leaderboard)
+                ladder = cur_group.get_ladder()
+                input_game(ladder, winner_name, loser_name)
         elif "add_player_submit" in request.form:
             player_name = request.form["playername"]
 
-            cur_group = get_group(leaderboard)
-            group_ladder = cur_group.get_ladder()
-            group_ladder.add_player(player_name)
+            if player_name != "":
+                cur_group = get_group(leaderboard)
+                group_ladder = cur_group.get_ladder()
+                group_ladder.add_player(player_name)
         elif "remove_player_submit" in request.form:
             player_name = request.form["playername"]
 
@@ -123,7 +127,7 @@ def get_leaderboard_names():
     for filename in os.listdir("group_ladders"):
         if not "." in filename and filename != "leaderboard_names":
             leaderboard_names.append(filename)
-
+ 
     return leaderboard_names
 
 
