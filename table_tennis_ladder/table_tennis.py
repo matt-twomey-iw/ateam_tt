@@ -60,7 +60,7 @@ def post_leaderboard():
     if request.method == "POST":
         leaderboard_name = request.form["leaderboard_name"]
         if not leaderboard_name.isalpha():
-            flash("Invalid input - leaderboard name contains non-alphanumeric characters")
+            flash("Invalid input - leaderboard name contains non-alphanumeric characters", "error")
             return get_html()
         else:
             create_group(leaderboard_name)
