@@ -93,12 +93,20 @@ def record_match(leaderboard):
             winner_name = request.form["winner_name"]
             loser_name = request.form["loser_name"]
 
+            if len(winner_name) > 20 or len(loser_name) > 20:
+                flash("Invalid input - player name is too long")
+                return get_leaderboard_html(leaderboard)
+
             if winner_name != "" and loser_name != "":
                 cur_group = get_group(leaderboard)
                 ladder = cur_group.get_ladder()
                 input_game(ladder, winner_name, loser_name)
         elif "add_player_submit" in request.form:
             player_name = request.form["playername"]
+
+            if len(player_name) > 20:
+                flash("Invalid input - player name is too long")
+                return get_leaderboard_html(leaderboard)
 
             if player_name != "":
                 cur_group = get_group(leaderboard)
