@@ -70,7 +70,8 @@ def post_leaderboard():
 @app.route("/<leaderboard>")
 def get_leaderboard_html(leaderboard):
     
-    if leaderboard not in get_leaderboard_names():
+    lower_leaderboard = leaderboard.lower()
+    if lower_leaderboard not in get_leaderboard_names():
         abort(404)
     
     cur_group = get_group(leaderboard)

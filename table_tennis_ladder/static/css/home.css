@@ -4,8 +4,7 @@ html {
 
 
 body {
-    max-width: 960px;
-	min-width: 510px;
+    
 	margin-right: auto;
     margin-left: auto;
     text-align: center;
@@ -21,7 +20,12 @@ h2 {
     
 }
 
+#myCarousel {
+    max-width: 960px;
+    min-width: 510px;
+    margin: auto;
+}
+
 .carousel-inner > .item > img {
     margin: 0 auto;
 }
-
