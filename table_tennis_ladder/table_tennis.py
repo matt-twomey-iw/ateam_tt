@@ -59,7 +59,7 @@ def get_html():
 def post_leaderboard():
     if request.method == "POST":
         leaderboard_name = request.form["leaderboard_name"]
-        if not leaderboard_name.isalpha():
+        if not leaderboard_name.isalnum():
             flash("Invalid input - leaderboard name contains non-alphanumeric characters", "error")
             return get_html()
         else:
@@ -71,6 +71,8 @@ def post_leaderboard():
 def get_leaderboard_html(leaderboard):
     
     lower_leaderboard = leaderboard.lower()
+    print lower_leaderboard
+    print get_leaderboard_names()
     if lower_leaderboard not in get_leaderboard_names():
         abort(404)
     
@@ -123,7 +125,7 @@ def get_leaderboard_names():
     for filename in os.listdir("group_ladders"):
         if not "." in filename and filename != "leaderboard_names":
             leaderboard_names.append(filename)
-
+ 
     return leaderboard_names
 
 
