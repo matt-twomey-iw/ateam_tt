@@ -95,31 +95,39 @@ def record_match(leaderboard):
             winner_name = request.form["winner_name"]
             loser_name = request.form["loser_name"]
 
-            if len(winner_name) > 20 or len(loser_name) > 20:
+            if winner_name == "" or loser_name == "":
+                flash("Invalid input - fields must not be blank")
+                # return get_leaderboard_html(leaderboard)
+            elif len(winner_name) > 20 or len(loser_name) > 20:
                 flash("Invalid input - player name is too long")
-                return get_leaderboard_html(leaderboard)
-
-            if winner_name != "" and loser_name != "":
+                # return get_leaderboard_html(leaderboard)
+            else:
                 cur_group = get_group(leaderboard)
                 ladder = cur_group.get_ladder()
                 input_game(ladder, winner_name, loser_name)
         elif "add_player_submit" in request.form:
             player_name = request.form["playername"]
 
-            if len(player_name) > 20:
+            if player_name == "":
+                flash("Invalid input - field must not be blank")
+                # return get_leaderboard_html(leaderboard)
+            elif len(player_name) > 20:
                 flash("Invalid input - player name is too long")
-                return get_leaderboard_html(leaderboard)
-
-            if player_name != "":
+                # return get_leaderboard_html(leaderboard)
+            else:
                 cur_group = get_group(leaderboard)
                 group_ladder = cur_group.get_ladder()
                 group_ladder.add_player(player_name)
         elif "remove_player_submit" in request.form:
             player_name = request.form["playername"]
 
-            cur_group = get_group(leaderboard)
-            group_ladder = cur_group.get_ladder()
-            group_ladder.remove_player(player_name)
+            if player_name == "":
+                flash("Invalid input - field must not be blank")
+                # return get_leaderboard_html(leaderboard)
+            else:
+                cur_group = get_group(leaderboard)
+                group_ladder = cur_group.get_ladder()
+                group_ladder.remove_player(player_name)
 
         return get_leaderboard_html(leaderboard)
 
