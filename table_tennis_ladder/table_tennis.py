@@ -13,6 +13,7 @@ from htmlify import Htmlify
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = "static"
 app.secret_key = b'im_batman'
+app.run()
 
 welcome = r"""
           ,;;;!!!!!;;.
