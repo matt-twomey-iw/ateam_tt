@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}{{ leaderboard_name }}{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<body>
+    <div class="container">
+        <div class="col-lg">
+
+            <div>
+                <table class="table table-dark">
+
+                    <thead class="thead-dark">
+                        <tr style="text-align: center">
+                            <th style="text-align: center">Player</th>
+                            <th style="text-align: center">Rank</th>
+                        </tr>
+                    </thead>
+
+                    {% for player in players %}
+                        <tr>
+                            <td style="text-align: center">{{ player.name }}</td>
+                            <td style="text-align: center">{{ loop.index }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+            </div>
+            <form method = "POST">
+                Player to be added:<br>
+                <input type="text" name="playername"><br>
+                <input type="submit" name="add_player_submit" value="Submit">
+            </form>
+            <br>
+            <form method = "POST">
+                Winner's name:<br>
+                <input type="text" name="winner_name"><br>
+                Loser's name:<br>
+                <input type="text" name="loser_name"><br>
+                <input type="submit" name="record_match_submit" value="Submit">
+            </form>
+            <br>
+            <form method="POST">
+                Player to be removed:<br>
+                <input type="text" name="playername"><br>
+                <input type="submit" name="remove_player_submit" value="Submit">
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
