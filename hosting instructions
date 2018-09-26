@@ -1,0 +1,23 @@
+---- INITIAL SETUP ----
+1) ssh into server box
+	- use command "ssh <user>@<domain>"
+	- "ubuntu@ateam.iw-c.co.uk" in our case
+2) copy required files to server box
+	- can be done using an FTP client, or by cloning GitHub repo
+3) install any dependencies (python modules quik, click, prettyTable, and flask in this case)
+4) navigate to directory where the python file with the entry point to the program is
+5) use the "screen" command to open a new screen
+6) start up Flask
+	- use command "FLASK_APP=table_tennis.py FLASK_DEBUG=1 python -m flask run&"
+	- the "&" will run the task in the background
+7) detach from the current screen by using Ctrl + A, and then pressing the "d" key
+8) the ssh connection to the server can be closed without affecting the running of the site
+
+
+---- FURTHER INFO ----
+1) to re-attach to the screen session:
+	- ssh into server box (same command as before)
+	- use command "screen -r" to reattach to the session
+	- interface will display a list of screen sessions with further instructions if more than one screen session has been initialised
+
+
